@@ -122,23 +122,22 @@ DATABASE_NAME=your-db-name
    ```
 2. **Running Migrations with Yarn/NPM**
 
-  # Important Database Migration Note
+   ###### Important Database Migration Note
+     Before starting the application, it is essential to run the database migration command using either Yarn or NPM. This step is crucial for the following reasons:
 
-    Before starting the application, it is essential to run the database migration command using either Yarn or NPM. This step is crucial for the following reasons:
-
-    1. **Populating the Database**:
+  - 1. **Populating the Database**:
       - The migration command utilizes YAML data from the fixtures directory to populate the database with initial data. This includes setting up essential records that your application may require to function correctly.
 
-    2. **Setting Up Relationships**:
+  - 2. **Setting Up Relationships**:
       - Migrations help establish the relationships between different models and ensure that foreign keys and indexes are correctly configured. This is vital for maintaining data integrity and optimizing query performance.
 
-    3. **Data Consistency**:
+  - 3. **Data Consistency**:
       - Running migrations ensures that the database schema is in sync with the application models. This consistency is critical for avoiding runtime errors related to missing tables, columns, or relationships.
 
-    4. **Easier Development**:
-      - With a pre-populated database, developers can focus on building features without needing to manually insert data. This makes testing and development more efficient.
+  - 4. **Easier Testing**:
+      - With a pre-populated database, This makes testing and development more efficient.
 
-    ### How to Run Migrations
+  - #### How to Run Migrations
 
     To run the migration, execute one of the following commands in your terminal:
     # Using Yarn
