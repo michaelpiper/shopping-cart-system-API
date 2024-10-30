@@ -24,14 +24,14 @@ export class ProductStockService {
       // Fetch the product stock and check if available
       debug("Fetch product %s stock and check if available %s", productId, quantity)
       const product = await this.productRepository.findById(productId);
-      debug("product in stock %s, quantity available : &s", product.stock < quantity, product.stock)
+      debug("product in stock %s, quantity available : %s", product.stock < quantity, product.stock)
       if (product.stock < quantity) return false;
 
       // Update the stock and save to the database
       product.stock -= quantity;
       await Promise.all([
         this.stockRepository.addCount(productKey, product.stock),
-        this.productRepository.updateById(productId, product)
+        this.productRepository.addStock(productId, -quantity),
       ]);
     } finally {
       await this.stockRepository.releaseLock(lockKey); // Release lock
@@ -52,8 +52,10 @@ export class ProductStockService {
       const product = await this.productRepository.findById(productId);
       // Update the stock and save to the database
       product.stock += quantity;
-      await Promise.all([this.stockRepository.addCount(productKey, product.stock),
-      this.productRepository.updateById(productId, product)]);
+      await Promise.all([
+        this.stockRepository.addCount(productKey, product.stock),
+        this.productRepository.addStock(productId, quantity),
+      ]);
     } finally {
       await this.stockRepository.releaseLock(lockKey); // Release lock
     }
