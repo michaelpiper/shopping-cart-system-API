@@ -4,8 +4,8 @@
 // License text available at https://opensource.org/licenses/MIT
 
 import {bind, BindingScope} from '@loopback/core';
-import {EmailTemplate, User} from '../models';
 import {createTransport, SentMessageInfo} from 'nodemailer';
+import {EmailTemplate, User} from '../models';
 
 @bind({scope: BindingScope.TRANSIENT})
 export class EmailService {
@@ -16,11 +16,16 @@ export class EmailService {
     return createTransport({
       host: process.env.SMTP_SERVER,
       port: +process.env.SMTP_PORT!,
-      secure: false, // upgrade later with STARTTLS
+      secure: process.env.SMTP_SECURE === "true", // upgrade later with STARTTLS
+      options: {
+        from: process.env.MAIL_FROM
+      },
       auth: {
         user: process.env.SMTP_USERNAME,
         pass: process.env.SMTP_PASSWORD,
+
       },
+
     });
   }
   async sendResetPasswordMail(user: User): Promise<SentMessageInfo> {

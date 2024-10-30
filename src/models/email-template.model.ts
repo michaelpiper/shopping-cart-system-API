@@ -10,7 +10,7 @@ export class EmailTemplate extends Model {
   @property({
     type: 'string',
   })
-  from = 'no_reply@loopback.io';
+  from = process.env.MAIL_FROM ?? 'no_reply@loopback.io';
 
   @property({
     type: 'string',
