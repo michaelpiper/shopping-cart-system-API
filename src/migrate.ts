@@ -1,3 +1,5 @@
+import "./dotenv";
+//////
 import {ShoppingCartApiApplication} from './application';
 
 export async function migrate(args: string[]) {
